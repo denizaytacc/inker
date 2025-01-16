@@ -3,11 +3,10 @@ webserver_port: "5005"
 website_name: "inker"
 posts_per_page: "4"
 pagination: "false"
-icon_path: "inker.png"
+icon_path: "icon.png"
 template_name: "navy"
 generate_nav: "true"
 extra:
-  - { projects.md: "projects.html", visible-name: "projects" }
   - { about.md: "about.html", visible-name: "about" }
 headers:
 - "Getting started"

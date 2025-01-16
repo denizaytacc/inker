@@ -1,10 +1,10 @@
 use std::{fs};
-use std::fs::File;
+use std::fs::{copy, File};
 use std::io::Write;
 use std::path::Path;
 use slugify::slugify;
 use crate::config::InkerConfig;
-
+use std::io;
 
 pub struct FileHandler{
 }
@@ -109,13 +109,36 @@ impl FileHandler{
         let files = fs::read_dir(from_folder.clone()).unwrap();
         files
             .filter_map(Result::ok)
-            .filter(|d| if let Some(e) = d.path().extension() { e != filter } else {false})
+            .filter(|d| if let Some(e) = d.path().extension() { e != filter } else { false})
             .for_each(|f| other_files.push(f.file_name().into_string().expect("Error on moving file")));
         for file in other_files{
-            let from = format!("{}/{}", from_folder, file);
-            let to = format!("{}/{}", to_folder, file);
+            let from = format!("{}/{}", from_folder.clone(), file);
+            let to = format!("{}/{}", to_folder.clone(), file);
             fs::copy(from, to).expect("Couldn't move the content file");
         }
+        let files = fs::read_dir(from_folder.clone()).unwrap();
+        files
+        .filter_map(Result::ok)
+        .filter(|d| d.path().extension().is_none())
+        .for_each(|folder| {
+            let _ = Self::copy_dir_all(folder.path(), format!("{}/{}", to_folder.clone(), 
+            folder.file_name().into_string().unwrap()));
+            });
+    }
+
+    /// Copies a folder recursively
+    fn copy_dir_all(src: impl AsRef<Path>, dst: impl AsRef<Path>) -> io::Result<()> {
+        fs::create_dir_all(&dst)?;
+        for entry in fs::read_dir(src)? {
+            let entry = entry?;
+            let ty = entry.file_type()?;
+            if ty.is_dir() {
+                Self::copy_dir_all(entry.path(), dst.as_ref().join(entry.file_name()))?;
+            } else {
+                fs::copy(entry.path(), dst.as_ref().join(entry.file_name()))?;
+            }
+        }
+        Ok(())
     }
 
 }

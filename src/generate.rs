@@ -124,7 +124,7 @@ impl Generator{
         let src = InkerConfig::template_folder() + "/*";
         let mut tera = match Tera::new(src.as_str()) {
             Ok(file) => file,
-            Err(error) => panic!("Couldn't find the icon defined in config.yaml files: {:?}", error),
+            Err(error) => panic!("Problem while reading the template folder: {:?}", error),
         };
         tera.autoescape_on(vec![]);
         let mut config = InkerConfig::new().unwrap();
