@@ -246,12 +246,11 @@ impl Generator{
     
     /// Takes a string in MD form and returns it in HTML form
     fn md_to_html(contents: String) -> String{
-        // Set up options and parser. Strikethroughs are not part of the CommonMark standard
-        // and we therefore must enable it explicitly.
         let mut options = Options::empty();
         options.insert(Options::ENABLE_STRIKETHROUGH);
+        options.insert(Options::ENABLE_HEADING_ATTRIBUTES);
+        options.insert(Options::ENABLE_TABLES);
         let parser = Parser::new_ext(&contents, options);
-        // Write to String buffer.
         let mut html_output = String::new();
         html::push_html(&mut html_output, parser);
         return html_output;
