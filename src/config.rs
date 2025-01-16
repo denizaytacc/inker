@@ -3,7 +3,6 @@ use chrono::{DateTime, Utc};
 use std::{fs};
 use yaml_rust::{Yaml, YamlLoader};
 use serde::{Serialize, Deserialize};
-use std::path::PathBuf;
 use crate::file_handler::FileHandler;
 
 pub struct InkerConfig{

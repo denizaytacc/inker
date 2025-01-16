@@ -1,11 +1,10 @@
-use std::{fs, env};
+use std::{fs};
 use std::fs::{File};
 use std::io::Write;
 use std::path::Path;
 use slugify::slugify;
 use crate::config::InkerConfig;
 use std::io;
-use std::path::PathBuf;
 
 pub struct FileHandler{
 }
@@ -143,8 +142,8 @@ impl FileHandler{
     }
     /// Copies template folder and config.yaml file
     pub fn move_core() {
-        Self::copy_folder("templates", "target/debug/templates");
-        Self::copy_folder("templates", "target/release/templates");
+        let _ = Self::copy_folder("templates", "target/debug/templates");
+        let _ = Self::copy_folder("templates", "target/release/templates");
         fs::copy("config.yaml", "target/debug/config.yaml").expect("Couldn't move the config file");
         fs::copy("config.yaml", "target/release/config.yaml").expect("Couldn't move the config file");
     }
