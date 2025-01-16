@@ -5,21 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="{{base_url}}/static/main.css">
-    <link rel="icon" type="image/x-icon" href="{{base_url}}/static/{{icon_path}}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/purecss@3.0.0/build/pure-min.css" integrity="sha384-X38yfunGUhNzHpBaEBsWLO+A0HDYOQi8ufWDkZ0k9e0eXz/tH3II7uKZ9msv++Ls" crossorigin="anonymous">    <link rel="icon" type="image/x-icon" href="{{base_url}}/static/images/{{icon_path}}">
     <title>{% block title %}{% endblock title %}</title>
 </head>
 <body>
     <div class="navbar-custom">
         <a class="left" style="text-align: center;" href="#home">
-            <img src="{{base_url}}/static/{{icon_path}}">
-            <a class="left" id="main-link">{{website_name}}</a> 
+            <img src="{{base_url}}/static/images/{{icon_path}}">
+            <a href="{{base_url}}/" class="left" id="main-link">{{website_name}}</a> 
         </a>
     </div>
 
     <div class="menu">
-        <a class="menu-link left" href="{{base_url}}/projects">projects</a>
-        <a class="menu-link left" href="{{base_url}}/about">about</a>
-        <a class="menu-link right" href="https://github.com/">github</a>
+        <!-- <a class="menu-link left" href="{{base_url}}/about">about</a> -->
+        <a class="menu-link right" href="https://github.com/eselizabeth/inker">github</a>
     </div>
 
     {{navigation}}

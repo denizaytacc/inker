@@ -7,9 +7,8 @@ icon_path: "icon.png"
 template_name: "navy"
 generate_nav: "true"
 extra:
-  - { about.md: "about.html", visible-name: "about" }
+  - { about.md: "about.html", visible-name: "about" } # delete this before updating the repo for final
 headers:
 - "Getting started"
-- "Configuration"
 - "Features"
 - "Deployment"

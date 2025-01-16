@@ -138,3 +138,6 @@ a{
     font-size: 1rem;
 }
 
+th, td {
+    border-bottom: 1px solid #ddd;
+  }
