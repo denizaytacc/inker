@@ -1,10 +1,11 @@
-use std::{fs};
-use std::fs::{copy, File};
+use std::{fs, env};
+use std::fs::{File};
 use std::io::Write;
 use std::path::Path;
 use slugify::slugify;
 use crate::config::InkerConfig;
 use std::io;
+use std::path::PathBuf;
 
 pub struct FileHandler{
 }
@@ -121,24 +122,31 @@ impl FileHandler{
         .filter_map(Result::ok)
         .filter(|d| d.path().extension().is_none())
         .for_each(|folder| {
-            let _ = Self::copy_dir_all(folder.path(), format!("{}/{}", to_folder.clone(), 
+            let _ = Self::copy_folder(folder.path(), format!("{}/{}", to_folder.clone(), 
             folder.file_name().into_string().unwrap()));
             });
     }
 
     /// Copies a folder recursively
-    fn copy_dir_all(src: impl AsRef<Path>, dst: impl AsRef<Path>) -> io::Result<()> {
+    fn copy_folder(src: impl AsRef<Path>, dst: impl AsRef<Path>) -> io::Result<()> {
         fs::create_dir_all(&dst)?;
         for entry in fs::read_dir(src)? {
             let entry = entry?;
             let ty = entry.file_type()?;
             if ty.is_dir() {
-                Self::copy_dir_all(entry.path(), dst.as_ref().join(entry.file_name()))?;
+                Self::copy_folder(entry.path(), dst.as_ref().join(entry.file_name()))?;
             } else {
                 fs::copy(entry.path(), dst.as_ref().join(entry.file_name()))?;
             }
         }
         Ok(())
+    }
+    /// Copies template folder and config.yaml file
+    pub fn move_core() {
+        Self::copy_folder("templates", "target/debug/templates");
+        Self::copy_folder("templates", "target/release/templates");
+        fs::copy("config.yaml", "target/debug/config.yaml").expect("Couldn't move the config file");
+        fs::copy("config.yaml", "target/release/config.yaml").expect("Couldn't move the config file");
     }
 
 }
